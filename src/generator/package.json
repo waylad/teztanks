@@ -1,0 +1,16 @@
+{
+  "name": "tank-generator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "sharp": "^0.29.3",
+    "svg-to-png": "^4.0.0"
+  }
+}
