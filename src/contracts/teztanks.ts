@@ -279,9 +279,6 @@ export class FA2 extends Helpers {
   */
  @EntryPoint
  mint(tokenId: TNat, address: TAddress, amount: TNat, metadata: TMap<TString, TBytes>): void {
-     // Sender must be the admin
-     this.failIfSenderNotAdmin();
-     // We don't check for pauseness because we're the admin.
      const user: TTuple<[TAddress, TNat]> = [address, tokenId];
      if (this.storage.assets.ledger.hasKey(user)) {
          this.storage.assets.ledger.get(user).balance += amount;
@@ -435,7 +432,7 @@ Dev.test({ name: 'FA2' }, () => {
              token_metadata: [],
              token_total_supply: [],
          },
-         metadata: [['name', '0x54686520546f6b656e205a65726f']],
+         metadata: [['name', '0x54657a54616e6b73']],
      }),
  );
  // Pause
@@ -470,11 +467,11 @@ Dev.test({ name: 'FA2' }, () => {
  Scenario.verify(c1.storage.config.admin === admin.address);
  // Update_metadata
  Scenario.h2('Update Metatada');
- Scenario.verify(c1.storage.metadata.get('name') === ('0x54686520546f6b656e205a65726f' as TBytes));
+ Scenario.verify(c1.storage.metadata.get('name') === ('0x54657a54616e6b73' as TBytes));
  Scenario.transfer(c1.update_metadata([['name', '0x00']]), { sender: admin });
  Scenario.verify(c1.storage.metadata.get('name') === ('0x00' as TBytes));
- Scenario.transfer(c1.update_metadata([['name', '0x54686520546f6b656e205a65726f']]), { sender: admin });
- Scenario.verify(c1.storage.metadata.get('name') === ('0x54686520546f6b656e205a65726f' as TBytes));
+ Scenario.transfer(c1.update_metadata([['name', '0x54657a54616e6b73']]), { sender: admin });
+ Scenario.verify(c1.storage.metadata.get('name') === ('0x54657a54616e6b73' as TBytes));
  // Mint token
  Scenario.h2('Initial Minting');
  Scenario.transfer(
@@ -487,7 +484,7 @@ Dev.test({ name: 'FA2' }, () => {
          100,
          // Token metadata
          [
-             ['name', '0x54686520546f6b656e205a65726f'],
+             ['name', '0x54657a54616e6b73'],
              ['decimals', '0x32'],
              ['symbol', '0x544b30'],
          ],

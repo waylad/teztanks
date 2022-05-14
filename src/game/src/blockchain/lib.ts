@@ -14,6 +14,15 @@ function ConvertStringToHex(str: string) {
   return arr.join('');
 }
 
+function ConvertHexToString(str1: string) {
+	var hex  = str1.toString();
+	var str = '';
+	for (var n = 0; n < hex.length; n += 2) {
+		str += String.fromCharCode(parseInt(hex.substr(n, 2), 16));
+	}
+	return str;
+}
+
 export const connectWallet = async () => {
   try {
     const available = await TempleWallet.isAvailable()
@@ -39,30 +48,31 @@ export const getTanks = async () => {
   const tezTanksStorage = await tezTanks.storage()
   console.log('tezTanksStorage', tezTanksStorage)
 
-  // const ledger = await tezTanksStorage.ledger.get();
-  // console.log('ledger', ledger)
+  const ledger = await tezTanksStorage.assets.ledger.get(accountPkh);
+  console.log('ledger', ledger)
 
-  // const token_metadata = await tezTanksStorage.token_metadata.get();
-  // console.log('token_metadata', token_metadata)
+  const token_metadata = await tezTanksStorage.assets.token_metadata.get(126);
+  console.log('token_metadata', token_metadata)
 
-  // CONST.USER_TANKS = [
-  //   {
-  //     tokenId: tankId1,
-  //     tankCode: tankCode1,
-  //   },
-  //   {
-  //     tokenId: tankId2,
-  //     tankCode: tankCode2,
-  //   },
-  //   {
-  //     tokenId: tankId3,
-  //     tankCode: tankCode3,
-  //   },
-  //   {
-  //     tokenId: tankId4,
-  //     tankCode: tankCode4,
-  //   },
-  // ]
+  
+  CONST.USER_TANKS = [
+    {
+      tokenId: token_metadata.token_id.toNumber(),
+      tankCode: ConvertHexToString(token_metadata.token_info.get('tankCode')),
+    },
+    // {
+    //   tokenId: tankId2,
+    //   tankCode: tankCode2,
+    // },
+    // {
+    //   tokenId: tankId3,
+    //   tankCode: tankCode3,
+    // },
+    // {
+    //   tokenId: tankId4,
+    //   tankCode: tankCode4,
+    // },
+  ]
   console.log(CONST.USER_TANKS)
 }
 
