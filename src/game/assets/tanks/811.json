@@ -1,0 +1,11 @@
+{
+  "name": "Teztank 811",
+  "description": "A Teztank Upgradable Tank",
+  "external_url": "https://teztanks.com/assets/tanks/811.svg",
+  "image": "https://teztanks.com/assets/tanks/811.svg",
+  "attributes": [
+    { "turret": 8, "rarity": 0.1 },
+    { "body": 1, "rarity": 0.2 },
+    { "chassis": 1, "rarity": 0.1 }
+  ]
+}

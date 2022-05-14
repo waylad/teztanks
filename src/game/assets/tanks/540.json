@@ -1,0 +1,11 @@
+{
+  "name": "Teztank 540",
+  "description": "A Teztank Upgradable Tank",
+  "external_url": "https://teztanks.com/assets/tanks/540.svg",
+  "image": "https://teztanks.com/assets/tanks/540.svg",
+  "attributes": [
+    { "turret": 5, "rarity": 0.1 },
+    { "body": 4, "rarity": 0.2 },
+    { "chassis": 0, "rarity": 0.1 }
+  ]
+}

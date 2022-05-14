@@ -1,0 +1,11 @@
+{
+  "name": "Teztank 047",
+  "description": "A Teztank Upgradable Tank",
+  "external_url": "https://teztanks.com/assets/tanks/047.svg",
+  "image": "https://teztanks.com/assets/tanks/047.svg",
+  "attributes": [
+    { "turret": 0, "rarity": 0.1 },
+    { "body": 4, "rarity": 0.2 },
+    { "chassis": 7, "rarity": 0.1 }
+  ]
+}
