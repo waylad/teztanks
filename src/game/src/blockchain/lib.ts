@@ -40,7 +40,7 @@ export const getTanks = async () => {
     const token_metadata = await tezTanksStorage.assets.token_metadata.get(tokenId)
     console.log('token_metadata', token_metadata)
     const tankCode = bytes2Char(token_metadata.token_info.get('tankCode'))
-    CONST.USER_TANKS.push({
+    CONST.USER_TANKS.unshift({
       tokenId,
       tankCode,
     })
