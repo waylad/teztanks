@@ -1,13 +1,13 @@
 ## TezTanks
 
-### Video demo :
+### Video demo : https://www.youtube.com/playlist?list=PLAjZcLA2E50i-8PRoIPdasMwVOd84GRUj
 
 ### Try it out now on https://teztanks.com
 
 TezTanks is a tank fighting game with upgradable NFTs. Mint a basic tank to start with. Pilot it in the game and fight enemies! Harvest their parts. Upgrade your tank. Then sell your upgraded NFT.
 ![](https://teztanks.com/assets/screenshots/present-model.png)
 
-First, click "connect your wallet". Temple opens to authorize the connection. If you are not already connected to the Tezos Ithaca Testnet, Temple will offer you to do so.
+First, click "connect your wallet". Temple opens to authorize the connection. Make sure your wallet is connected to the Tezos Ithaca Testnet.
 ![](https://teztanks.com/assets/screenshots/connect-wallet-scene.png)
 
 The game will then fetch all your tank NFTs from the smart contract. If you do not yet have a TezTank NFT, click "Mint New Tank" and Temple will open to trigger the mint. You will receive a basic tank with entry-level turret, body and chassis. The tank will appear in your list of tanks (if not refresh the page). Select that tank to access the game.
