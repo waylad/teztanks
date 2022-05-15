@@ -1,27 +1,11 @@
 import { TempleWallet } from '@temple-wallet/dapp'
 import { CONST, TankToken } from '../const/const'
 import { MichelsonMap } from '@taquito/taquito'
+import { bytes2Char, char2Bytes } from '@taquito/utils'
 
 declare var window: any
 let tezTanks: any
 let accountPkh: string
-
-function ConvertStringToHex(str: string) {
-  var arr = [];
-  for (var i = 0; i < str.length; i++) {
-         arr[i] = (str.charCodeAt(i).toString(16)).slice(-4);
-  }
-  return arr.join('');
-}
-
-function ConvertHexToString(str1: string) {
-	var hex  = str1.toString();
-	var str = '';
-	for (var n = 0; n < hex.length; n += 2) {
-		str += String.fromCharCode(parseInt(hex.substr(n, 2), 16));
-	}
-	return str;
-}
 
 export const connectWallet = async () => {
   try {
@@ -31,7 +15,7 @@ export const connectWallet = async () => {
     }
 
     const wallet = new TempleWallet('TezTanks')
-    await wallet.connect('ithacanet')
+    await wallet.connect('ithacanet', { forcePermission: true })
     const tezos = wallet.toTezos()
 
     accountPkh = await tezos.wallet.pkh()
@@ -48,17 +32,16 @@ export const getTanks = async () => {
   const tezTanksStorage = await tezTanks.storage()
   console.log('tezTanksStorage', tezTanksStorage)
 
-  const ledger = await tezTanksStorage.assets.ledger.get(accountPkh);
-  console.log('ledger', ledger)
+  // const ledger = await tezTanksStorage.assets.ledger.get(accountPkh);
+  // console.log('ledger', ledger)
 
-  const token_metadata = await tezTanksStorage.assets.token_metadata.get(126);
+  const token_metadata = await tezTanksStorage.assets.token_metadata.get(126)
   console.log('token_metadata', token_metadata)
 
-  
   CONST.USER_TANKS = [
     {
       tokenId: token_metadata.token_id.toNumber(),
-      tankCode: ConvertHexToString(token_metadata.token_info.get('tankCode')),
+      tankCode: bytes2Char(token_metadata.token_info.get('tankCode')),
     },
     // {
     //   tokenId: tankId2,
@@ -77,11 +60,11 @@ export const getTanks = async () => {
 }
 
 export const mintTank = async () => {
-  const tokenId = Math.floor(Math.random() * 1000000)
+  const tokenId = 126 //Math.floor(Math.random() * 1000000)
   const address = accountPkh
   const amount = 1
   const metadata = MichelsonMap.fromLiteral({
-    tankCode: ConvertStringToHex('0000'),
+    tankCode: char2Bytes('0000'),
   })
 
   const operation = await tezTanks.methods.mint(address, amount, metadata, tokenId).send()
@@ -90,14 +73,14 @@ export const mintTank = async () => {
   //await getTanks()
 
   // const metadata = MichelsonMap.fromLiteral({
-  //   new_name: ConvertStringToHex('0000'),
+  //   new_name: char2Bytes('0000'),
   // })
   // const operation = await tezTanks.methods.update_metadata(metadata).send()
 }
 
 export const upgradeTank = async (tank: TankToken) => {
   const metadata = MichelsonMap.fromLiteral({
-    tankCode: ConvertStringToHex(tank.tankCode),
+    tankCode: char2Bytes(tank.tankCode),
   })
   const operation = await tezTanks.methods.update_metadata(metadata).send()
   const confirmation = await operation.confirmation()
