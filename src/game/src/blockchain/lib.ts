@@ -33,7 +33,7 @@ export const getTanks = async () => {
   console.log('tezTanksStorage', tezTanksStorage)
 
   const token_ledger = await tezTanksStorage.assets.token_ledger.get(accountPkh)
-  const tokenIds = token_ledger.map((bigNum: any) => bigNum.toNumber())
+  const tokenIds = token_ledger ? token_ledger.map((bigNum: any) => bigNum.toNumber()) : []
   console.log('tokenIds', tokenIds)
 
   for (const tokenId of tokenIds) {
@@ -72,8 +72,9 @@ export const mintTank = async () => {
 export const upgradeTank = async (tank: TankToken) => {
   const metadata = MichelsonMap.fromLiteral({
     tankCode: char2Bytes(tank.tankCode),
+    image: char2Bytes(`https://teztanks.com/assets/tanks/${tank.tankCode}.svg`),
   })
-  const operation = await tezTanks.methods.update_metadata(metadata).send()
+  const operation = await tezTanks.methods.update_token_metadata(metadata, tank.tokenId).send()
   const confirmation = await operation.confirmation()
   console.log(confirmation)
 }

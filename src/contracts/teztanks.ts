@@ -379,12 +379,30 @@ export class FA2 extends Helpers {
 
  /**
   * @description Update contract metadata
-  * @param {TAddress} address - New admin address
+  * @param {TMap<TString, TBytes>} metadata - New contract metadata
   */
  @EntryPoint
  update_metadata(metadata: TMap<TString, TBytes>): void {
      for (const entry of metadata.entries()) {
          this.storage.metadata.set(entry.key, entry.value);
+     }
+ }
+
+  /**
+  * @description Update token metadata
+  * @param {TNat} tokenId - TokenId to update
+  * @param {TMap<TString, TBytes>} metadata - New token metadata
+  */
+ @EntryPoint
+ update_token_metadata(tokenId: TNat, metadata: TMap<TString, TBytes>): void {
+     if (this.storage.assets.token_metadata.hasKey(tokenId)) {
+         this.storage.assets.token_metadata.set(tokenId, {
+             token_id: tokenId,
+             token_info: metadata,
+         });
+        // for (const entry of metadata.entries()) {
+        //     this.storage.assets.token_metadata.get(tokenId).set(entry.key, entry.value);
+        // }
      }
  }
 }
