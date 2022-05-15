@@ -32,48 +32,39 @@ export const getTanks = async () => {
   const tezTanksStorage = await tezTanks.storage()
   console.log('tezTanksStorage', tezTanksStorage)
 
-  // const ledger = await tezTanksStorage.assets.ledger.get(accountPkh);
-  // console.log('ledger', ledger)
+  const token_ledger = await tezTanksStorage.assets.token_ledger.get(accountPkh)
+  const tokenIds = token_ledger.map((bigNum: any) => bigNum.toNumber())
+  console.log('tokenIds', tokenIds)
 
-  const token_metadata = await tezTanksStorage.assets.token_metadata.get(126)
-  console.log('token_metadata', token_metadata)
+  for (const tokenId of tokenIds) {
+    const token_metadata = await tezTanksStorage.assets.token_metadata.get(tokenId)
+    console.log('token_metadata', token_metadata)
+    const tankCode = bytes2Char(token_metadata.token_info.get('tankCode'))
+    CONST.USER_TANKS.push({
+      tokenId,
+      tankCode,
+    })
+  }
 
-  CONST.USER_TANKS = [
-    {
-      tokenId: token_metadata.token_id.toNumber(),
-      tankCode: bytes2Char(token_metadata.token_info.get('tankCode')),
-    },
-    // {
-    //   tokenId: tankId2,
-    //   tankCode: tankCode2,
-    // },
-    // {
-    //   tokenId: tankId3,
-    //   tankCode: tankCode3,
-    // },
-    // {
-    //   tokenId: tankId4,
-    //   tankCode: tankCode4,
-    // },
-  ]
   console.log(CONST.USER_TANKS)
 }
 
 export const mintTank = async () => {
-  const tokenId = 126 //Math.floor(Math.random() * 1000000)
+  const tokenId = Math.floor(Math.random() * 1000000)
   const address = accountPkh
   const amount = 1
   const metadata = MichelsonMap.fromLiteral({
-    tankCode: char2Bytes('0000'),
+    tankCode: char2Bytes('000'),
+    image: char2Bytes('https://teztanks.com/assets/tanks/000.svg'),
   })
 
   const operation = await tezTanks.methods.mint(address, amount, metadata, tokenId).send()
   const confirmation = await operation.confirmation()
   console.log(confirmation)
-  //await getTanks()
+  window.location.reload()
 
   // const metadata = MichelsonMap.fromLiteral({
-  //   new_name: char2Bytes('0000'),
+  //   new_name: char2Bytes('000'),
   // })
   // const operation = await tezTanks.methods.update_metadata(metadata).send()
 }

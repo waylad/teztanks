@@ -13,7 +13,7 @@ export type CONST_TYPE = {
 }
 
 export let CONST: CONST_TYPE = {
-  THETANKS_CONTRACT: 'KT1PBnKhi3ptAfx65GEDNBPobyiqTHDobwvN',
+  THETANKS_CONTRACT: 'KT1V2JXHHQqx8kjfjEw7hdJddRbGQCibJfCn',
   USER_TANKS: [],
   CURRENT_TANK: undefined,
   INVENTORY: [],

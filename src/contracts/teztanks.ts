@@ -19,6 +19,7 @@ interface FA2Storage {
  assets: {
      ledger: TBig_map<TTuple<[TAddress, TNat]>, { balance: TNat }>;
      operators: TBig_map<{ operator: TAddress; owner: TAddress; token_id: TNat }, TUnit>;
+     token_ledger: TBig_map<TAddress, TList<TNat>>;
      token_metadata: TBig_map<TNat, TokenMetadata>;
      token_total_supply: TBig_map<TNat, TNat>;
  };
@@ -118,6 +119,7 @@ const default_initial_storage: FA2Storage = {
  assets: {
      ledger: [],
      operators: [],
+     token_ledger: [],
      token_metadata: [],
      token_total_supply: [],
  },
@@ -292,6 +294,15 @@ export class FA2 extends Helpers {
          });
      }
 
+    if (this.storage.assets.token_ledger.hasKey(address)) {
+        const user_token_list: TList<TNat> = this.storage.assets.token_ledger.get(address)
+        user_token_list.push(tokenId)
+        this.storage.assets.token_ledger.set(address, user_token_list)
+    } else {
+        const user_token_list: TList<TNat> = [tokenId]
+        this.storage.assets.token_ledger.set(address, user_token_list)
+    }
+
      this.storage.assets.token_total_supply.set(
          tokenId,
          this.storage.assets.token_total_supply.get(tokenId, 0) + amount,
@@ -429,6 +440,7 @@ Dev.test({ name: 'FA2' }, () => {
          assets: {
              ledger: [],
              operators: [],
+             token_ledger: [],
              token_metadata: [],
              token_total_supply: [],
          },
@@ -564,6 +576,7 @@ Dev.compileContract(
      assets: {
          ledger: [],
          operators: [],
+         token_ledger: [],
          token_metadata: [],
          token_total_supply: [],
      },
